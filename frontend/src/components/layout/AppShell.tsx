@@ -115,10 +115,10 @@ export default function AppShell() {
                                                 to={item.to}
                                                 className={({ isActive }) =>
                                                     [
-                                                        'rounded-xl px-4 py-3 font-semibold transition-all duration-200',
+                                                        'rounded-xl border px-4 py-3 font-semibold transition-colors duration-150',
                                                         isActive
-                                                            ? 'bg-primary text-primary-content shadow-sm'
-                                                            : 'border border-transparent hover:border-base-200 hover:bg-base-200/70',
+                                                            ? 'border-primary/20 bg-primary/10 text-primary'
+                                                            : 'border-transparent hover:border-base-200 hover:bg-base-200/70',
                                                     ].join(' ')
                                                 }
                                             >

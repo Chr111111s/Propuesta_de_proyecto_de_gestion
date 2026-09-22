@@ -78,7 +78,7 @@ function buildIcon(kind: 'hub' | 'route', color: string) {
 
     return divIcon({
         className: 'custom-map-pin',
-        html: `<span style="display:block;width:${size}px;height:${size}px;border-radius:999px;background:${color};box-shadow:0 0 0 6px rgba(255,255,255,.92),0 14px 28px rgba(15,23,42,.22);"></span>`,
+        html: `<span style="display:block;width:${size}px;height:${size}px;border:3px solid white;border-radius:999px;background:${color};"></span>`,
         iconSize: [size, size],
         iconAnchor: [size / 2, size / 2],
     });
@@ -101,12 +101,16 @@ export function DistributionMap({ routes, stateSummary }: { routes: Route[]; sta
                     center={[22.2, -100.0]}
                     zoom={5}
                     minZoom={4}
+                    maxZoom={19}
                     scrollWheelZoom={false}
                     className="distribution-map"
                 >
                     <TileLayer
-                        attribution='&copy; OpenStreetMap contributors &copy; CARTO'
-                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
+                        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        maxZoom={19}
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        updateWhenIdle
                     />
                     <Marker position={logisticsHub} icon={buildIcon('hub', 'var(--color-neutral)')}>
                         <Popup>
@@ -121,7 +125,7 @@ export function DistributionMap({ routes, stateSummary }: { routes: Route[]; sta
 
                         return (
                             <Fragment key={route.id}>
-                                <Polyline positions={[logisticsHub, destination]} pathOptions={{ color, weight: 4, opacity: 0.78 }} />
+                                <Polyline positions={[logisticsHub, destination]} pathOptions={{ color, weight: 3, opacity: 0.85, dashArray: '6 6' }} />
                                 <Marker position={destination} icon={buildIcon('route', color)}>
                                     <Popup>
                                         <strong>{route.destination}</strong>
@@ -148,6 +152,9 @@ export function DistributionMap({ routes, stateSummary }: { routes: Route[]; sta
                         </span>
                     ))}
                 </div>
+                <p className="border-t border-base-200 px-4 py-2 text-xs text-base-content/65">
+                    Ubicaciones de referencia. Las líneas conectan origen y destino, no representan el recorrido por carretera.
+                </p>
             </div>
 
             <div className="space-y-3 rounded-xl border border-base-200 bg-base-100 p-4 shadow-sm xl:max-h-[540px] xl:overflow-y-auto app-scrollbar">

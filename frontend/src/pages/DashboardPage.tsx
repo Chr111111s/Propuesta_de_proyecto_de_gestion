@@ -142,7 +142,7 @@ export function DashboardPage() {
                                         background: 'var(--color-base-100)',
                                         boxShadow: '0 12px 28px rgba(30,48,72,0.12)',
                                         fontSize: 13,
-                                        fontFamily: 'Barlow, ui-sans-serif, sans-serif',
+                                        fontFamily: 'var(--font-sans)',
                                     }}
                                     cursor={{ stroke: 'var(--color-secondary)', strokeDasharray: '3 3' }}
                                 />
