@@ -30,7 +30,7 @@ export function TrackingPage() {
             <section className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
                 <SectionCard title="Pedidos disponibles" description="Selecciona un folio para revisar su línea de tiempo y ficha logística.">
                     <div className="space-y-4">
-                            {movements.slice(0, 10).map((movement) => {
+                            {movements.slice(0, 24).map((movement) => {
                             const isActive = movement.id === selectedMovement?.id;
                             return (
                                 <Link

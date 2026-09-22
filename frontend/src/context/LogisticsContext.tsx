@@ -186,7 +186,7 @@ export function LogisticsProvider({ children }: { children: ReactNode }) {
     );
 
     const criticalInventory = useMemo(
-        () => [...inventory].sort((left, right) => left.quantity - right.quantity).slice(0, 5),
+        () => inventory.filter((item) => item.quantity <= 320).sort((left, right) => left.quantity - right.quantity),
         [inventory],
     );
 

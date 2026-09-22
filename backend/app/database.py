@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,7 +16,7 @@ def get_connection() -> sqlite3.Connection:
 
 def init_db() -> None:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with get_connection() as connection:
+    with closing(get_connection()) as connection, connection:
         cursor = connection.cursor()
         cursor.executescript(
             """
@@ -65,7 +66,7 @@ def init_db() -> None:
 
 
 def seed_data() -> None:
-    with get_connection() as connection:
+    with closing(get_connection()) as connection, connection:
         cursor = connection.cursor()
         inventory_count = cursor.execute("SELECT COUNT(*) FROM inventory_items").fetchone()[0]
         movements_count = cursor.execute("SELECT COUNT(*) FROM movements").fetchone()[0]

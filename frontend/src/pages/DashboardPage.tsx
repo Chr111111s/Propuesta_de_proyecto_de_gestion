@@ -155,7 +155,7 @@ export function DashboardPage() {
 
                 <SectionCard title="Bajo stock" description="Productos que requieren revisión de reabasto o redistribución interna.">
                     <div className="space-y-3">
-                        {criticalInventory.map((item) => (
+                        {criticalInventory.slice(0, 5).map((item) => (
 <div key={item.id} className="rounded-xl border border-base-200 bg-base-200/30 p-4">
                                         <div className="flex items-start justify-between gap-4">
                                             <div>

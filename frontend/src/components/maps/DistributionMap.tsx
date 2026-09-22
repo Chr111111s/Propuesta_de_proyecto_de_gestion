@@ -85,7 +85,7 @@ function buildIcon(kind: 'hub' | 'route', color: string) {
 }
 
 export function DistributionMap({ routes, stateSummary }: { routes: Route[]; stateSummary: DistributionStateSummary[] }) {
-    const visibleRoutes = routes.slice(0, 8);
+    const visibleRoutes = routes;
 
     const legendItems = [
         { label: 'Operativa', color: 'var(--color-success)' },
@@ -163,7 +163,7 @@ export function DistributionMap({ routes, stateSummary }: { routes: Route[]; sta
                     <h3 className="mt-2 text-lg font-bold">Estados con operación activa</h3>
                 </div>
                 <div className="space-y-3">
-                    {stateSummary.slice(0, 6).map((state) => (
+                    {stateSummary.map((state) => (
                         <div key={state.state_name} className="rounded-xl border border-base-200 bg-base-200/30 p-3">
                             <div className="flex items-center justify-between gap-3">
                                 <strong className="text-sm">{state.state_name}</strong>
