@@ -59,18 +59,18 @@ function toneColor(status: string) {
     const tone = getStatusTone(status);
 
     if (tone === 'success') {
-        return '#1F7A4F';
+        return 'var(--color-success)';
     }
 
     if (tone === 'warning') {
-        return '#D18B13';
+        return 'var(--color-warning)';
     }
 
     if (tone === 'error') {
-        return '#D64545';
+        return 'var(--color-error)';
     }
 
-    return '#5B6472';
+    return 'var(--color-secondary)';
 }
 
 function buildIcon(kind: 'hub' | 'route', color: string) {
@@ -87,9 +87,16 @@ function buildIcon(kind: 'hub' | 'route', color: string) {
 export function DistributionMap({ routes, stateSummary }: { routes: Route[]; stateSummary: DistributionStateSummary[] }) {
     const visibleRoutes = routes.slice(0, 8);
 
+    const legendItems = [
+        { label: 'Operativa', color: 'var(--color-success)' },
+        { label: 'En tránsito', color: 'var(--color-warning)' },
+        { label: 'Requiere atención', color: 'var(--color-error)' },
+        { label: 'Hub central', color: 'var(--color-neutral)' },
+    ];
+
     return (
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1.75fr)_340px]">
-            <div className="map-frame isolate overflow-hidden rounded-[24px] border border-base-200 bg-base-100 shadow-sm">
+            <div className="map-frame isolate overflow-hidden rounded-xl border border-base-200 bg-base-100 shadow-sm">
                 <MapContainer
                     center={[22.2, -100.0]}
                     zoom={5}
@@ -101,7 +108,7 @@ export function DistributionMap({ routes, stateSummary }: { routes: Route[]; sta
                         attribution='&copy; OpenStreetMap contributors &copy; CARTO'
                         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                     />
-                    <Marker position={logisticsHub} icon={buildIcon('hub', '#111827')}>
+                    <Marker position={logisticsHub} icon={buildIcon('hub', 'var(--color-neutral)')}>
                         <Popup>
                             <strong>Hub logístico PiñaLog 360</strong>
                             <br />
@@ -128,16 +135,29 @@ export function DistributionMap({ routes, stateSummary }: { routes: Route[]; sta
                         );
                     })}
                 </MapContainer>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-base-200 bg-base-100/95 px-4 py-3">
+                    <span className="text-xs font-semibold uppercase tracking-[0.08em] text-base-content/50">Estado de ruta</span>
+                    {legendItems.map((item) => (
+                        <span key={item.label} className="flex items-center gap-1.5 text-xs text-base-content/70">
+                            <span
+                                className="inline-block h-2.5 w-2.5 rounded-full ring-2 ring-white"
+                                style={{ backgroundColor: item.color }}
+                                aria-hidden="true"
+                            />
+                            {item.label}
+                        </span>
+                    ))}
+                </div>
             </div>
 
-            <div className="space-y-3 rounded-[24px] border border-base-200 bg-base-100 p-4 shadow-sm xl:max-h-[540px] xl:overflow-y-auto app-scrollbar">
+            <div className="space-y-3 rounded-xl border border-base-200 bg-base-100 p-4 shadow-sm xl:max-h-[540px] xl:overflow-y-auto app-scrollbar">
                 <div>
-                    <p className="text-xs font-semibold text-base-content/45">Cobertura territorial</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-base-content/45">Cobertura territorial</p>
                     <h3 className="mt-2 text-lg font-bold">Estados con operación activa</h3>
                 </div>
                 <div className="space-y-3">
                     {stateSummary.slice(0, 6).map((state) => (
-                        <div key={state.state_name} className="rounded-2xl border border-base-200 bg-base-200/30 p-3">
+                        <div key={state.state_name} className="rounded-xl border border-base-200 bg-base-200/30 p-3">
                             <div className="flex items-center justify-between gap-3">
                                 <strong className="text-sm">{state.state_name}</strong>
                                 <span className="badge badge-outline">{state.route_count} rutas</span>

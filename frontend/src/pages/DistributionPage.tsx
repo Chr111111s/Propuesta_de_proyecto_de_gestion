@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { CalendarDays, Map, Plus, Timer, Truck } from 'lucide-react';
+import { CalendarDays, Map, Plus, Timer, Truck, X } from 'lucide-react';
 import { DistributionMap } from '../components/maps/DistributionMap';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SectionCard } from '../components/ui/SectionCard';
@@ -35,7 +35,7 @@ export function DistributionPage() {
                 title="Distribución estatal con mapa de seguimiento"
                 description="Vista tipo control tower con rutas activas, capacidad, responsables y desempeño de traslado sobre un mapa profesional."
                 actions={
-                    <button type="button" className="btn btn-primary rounded-2xl" onClick={() => setOpen(true)}>
+                    <button type="button" className="btn btn-primary rounded-xl" onClick={() => setOpen(true)}>
                         <Plus size={16} />
                         Programar ruta
                     </button>
@@ -86,7 +86,7 @@ export function DistributionPage() {
                 <SectionCard title="Desempeño estatal" description="Concentrado de utilización por plaza o estado.">
                     <div className="space-y-4">
                         {stateSummary.map((state) => (
-                            <div key={state.state_name} className="rounded-2xl border border-base-200 bg-base-200/30 p-4">
+                            <div key={state.state_name} className="rounded-xl border border-base-200 bg-base-200/30 p-4">
                                 <div className="flex items-start justify-between gap-3">
                                     <div>
                                         <p className="font-bold">{state.state_name}</p>
@@ -106,54 +106,54 @@ export function DistributionPage() {
             </section>
 
             <dialog className={`modal ${open ? 'modal-open' : ''}`}>
-                <div className="modal-box max-w-2xl rounded-[28px] p-0">
+                <div className="modal-box max-w-2xl rounded-2xl p-0">
                     <form onSubmit={handleSubmit} className="space-y-5 p-6">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <h3 className="text-2xl font-black">Programar ruta estatal</h3>
                                 <p className="mt-2 text-sm text-base-content/60">Captura destino, capacidad y responsable para actualizar el mapa logístico.</p>
                             </div>
-                            <button type="button" className="btn btn-ghost btn-circle" onClick={() => setOpen(false)}>
-                                ✕
+                            <button type="button" className="btn btn-ghost btn-circle" onClick={() => setOpen(false)} aria-label="Cerrar">
+                                <X size={18} />
                             </button>
                         </div>
 
                         <div className="grid gap-4 md:grid-cols-2">
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Estado</span>
-                                <input className="input input-bordered rounded-2xl" value={form.state_name} onChange={(event) => setForm((current) => ({ ...current, state_name: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.state_name} onChange={(event) => setForm((current) => ({ ...current, state_name: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Destino</span>
-                                <input className="input input-bordered rounded-2xl" value={form.destination} onChange={(event) => setForm((current) => ({ ...current, destination: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.destination} onChange={(event) => setForm((current) => ({ ...current, destination: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Tiempo estimado (h)</span>
-                                <input type="number" step="0.1" className="input input-bordered rounded-2xl" value={form.travel_time_hours} onChange={(event) => setForm((current) => ({ ...current, travel_time_hours: Number(event.target.value) }))} required />
+                                <input type="number" step="0.1" className="input input-bordered rounded-xl" value={form.travel_time_hours} onChange={(event) => setForm((current) => ({ ...current, travel_time_hours: Number(event.target.value) }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Capacidad</span>
-                                <input type="number" className="input input-bordered rounded-2xl" value={form.capacity_units} onChange={(event) => setForm((current) => ({ ...current, capacity_units: Number(event.target.value) }))} required />
+                                <input type="number" className="input input-bordered rounded-xl" value={form.capacity_units} onChange={(event) => setForm((current) => ({ ...current, capacity_units: Number(event.target.value) }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Responsable</span>
-                                <input className="input input-bordered rounded-2xl" value={form.responsible} onChange={(event) => setForm((current) => ({ ...current, responsible: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.responsible} onChange={(event) => setForm((current) => ({ ...current, responsible: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Estado de ruta</span>
-                                <input className="input input-bordered rounded-2xl" value={form.status} onChange={(event) => setForm((current) => ({ ...current, status: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.status} onChange={(event) => setForm((current) => ({ ...current, status: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2 md:col-span-2">
                                 <span className="label-text font-semibold">Último mantenimiento</span>
-                                <input type="date" className="input input-bordered rounded-2xl" value={form.last_maintenance} onChange={(event) => setForm((current) => ({ ...current, last_maintenance: event.target.value }))} required />
+                                <input type="date" className="input input-bordered rounded-xl" value={form.last_maintenance} onChange={(event) => setForm((current) => ({ ...current, last_maintenance: event.target.value }))} required />
                             </label>
                         </div>
 
                         <div className="flex justify-end gap-3">
-                            <button type="button" className="btn btn-ghost rounded-2xl" onClick={() => setOpen(false)}>
+                            <button type="button" className="btn btn-ghost rounded-xl" onClick={() => setOpen(false)}>
                                 Cancelar
                             </button>
-                            <button type="submit" className={`btn btn-primary rounded-2xl ${submitting ? 'btn-disabled' : ''}`}>
+                            <button type="submit" className={`btn btn-primary rounded-xl ${submitting ? 'btn-disabled' : ''}`}>
                                 {submitting ? 'Guardando...' : 'Guardar ruta'}
                             </button>
                         </div>

@@ -33,7 +33,7 @@ export function InventoryPage() {
                 title="Existencias por bodega y región"
                 description="Panel de control visual para revisar disponibilidad, estado de frescura y focos de redistribución por lote."
                 actions={
-                    <label className="select select-bordered flex items-center gap-2 rounded-2xl">
+                    <label className="select select-bordered flex items-center gap-2 rounded-xl">
                         <Filter size={16} />
                         <select value={warehouseFilter} onChange={(event) => setWarehouseFilter(event.target.value)}>
                             <option value="all">Todas las bodegas</option>
@@ -64,24 +64,24 @@ export function InventoryPage() {
                             const progressValue = Math.min(100, Math.round((units / 1800) * 100));
 
                             return (
-                                <div key={warehouse} className="rounded-[24px] border border-base-200 bg-base-200/25 p-5">
-                                    <div className="flex items-center justify-between gap-3">
-                                        <div>
-                                            <p className="text-lg font-bold">{warehouse}</p>
-                                            <p className="text-sm text-base-content/60">{items.length} lotes activos</p>
+                                <div key={warehouse} className="rounded-xl border border-base-200 bg-base-200/25 p-5">
+                                        <div className="flex items-center justify-between gap-3">
+                                            <div>
+                                                <p className="font-display text-lg font-bold">{warehouse}</p>
+                                                <p className="text-sm text-base-content/60">{items.length} lotes activos</p>
+                                            </div>
+                                            <span className="badge badge-outline">{riskCount} alertas</span>
                                         </div>
-                                        <span className="badge badge-outline">{riskCount} alertas</span>
-                                    </div>
-                                    <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
-                                        <div>
-                                            <p className="text-base-content/55">Unidades</p>
-                                            <p className="mt-1 text-2xl font-black">{formatNumber(units)}</p>
+                                        <div className="mt-5 grid grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <p className="text-base-content/55">Unidades</p>
+                                                <p className="display-num mt-1 text-2xl font-black">{formatNumber(units)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-base-content/55">Volumen</p>
+                                                <p className="display-num mt-1 text-2xl font-black">{formatVolume(volume)}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="text-base-content/55">Volumen</p>
-                                            <p className="mt-1 text-2xl font-black">{formatVolume(volume)}</p>
-                                        </div>
-                                    </div>
                                     <progress className="progress progress-success mt-5 h-2 w-full" value={progressValue} max={100} />
                                 </div>
                             );
@@ -112,7 +112,7 @@ export function InventoryPage() {
                                 return (
                                     <tr key={item.id}>
                                         <td>
-                                            <div className="font-bold">{item.batch_code}</div>
+                                            <div className="folio-mono font-bold">{item.batch_code}</div>
                                             <div className="text-xs text-base-content/50">{item.state}</div>
                                         </td>
                                         <td>{item.product_name}</td>

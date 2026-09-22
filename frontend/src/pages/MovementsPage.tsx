@@ -1,5 +1,5 @@
 import { FormEvent, useMemo, useState } from 'react';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, X } from 'lucide-react';
 import { SectionCard } from '../components/ui/SectionCard';
 import { PageHeader } from '../components/ui/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
@@ -52,7 +52,7 @@ export function MovementsPage() {
                 title="Entradas y salidas con foco transaccional"
                 description="Una vista separada para control de folios, origen/destino, volúmenes y responsables operativos sin perder claridad visual."
                 actions={
-                    <button type="button" className="btn btn-primary rounded-2xl" onClick={() => setOpen(true)}>
+                    <button type="button" className="btn btn-primary rounded-xl" onClick={() => setOpen(true)}>
                         <Plus size={16} />
                         Registrar movimiento
                     </button>
@@ -61,7 +61,7 @@ export function MovementsPage() {
 
             <SectionCard title="Filtros y métricas rápidas" description="Localiza movimientos por folio, lote, tipo o estado operativo.">
                 <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_200px_220px]">
-                    <label className="input input-bordered flex items-center gap-2 rounded-2xl">
+                    <label className="input input-bordered flex items-center gap-2 rounded-xl">
                         <Search size={16} className="text-base-content/45" />
                         <input
                             value={filters.search}
@@ -71,7 +71,7 @@ export function MovementsPage() {
                         />
                     </label>
                     <select
-                        className="select select-bordered rounded-2xl"
+                        className="select select-bordered rounded-xl"
                         value={filters.type}
                         onChange={(event) => setFilters((current) => ({ ...current, type: event.target.value }))}
                     >
@@ -80,7 +80,7 @@ export function MovementsPage() {
                         <option value="salida">Salidas</option>
                     </select>
                     <select
-                        className="select select-bordered rounded-2xl"
+                        className="select select-bordered rounded-xl"
                         value={filters.status}
                         onChange={(event) => setFilters((current) => ({ ...current, status: event.target.value }))}
                     >
@@ -120,7 +120,7 @@ export function MovementsPage() {
                             {filteredMovements.map((movement) => (
                                 <tr key={movement.id}>
                                     <td>
-                                        <div className="font-bold">{movement.folio}</div>
+                                        <div className="folio-mono font-bold">{movement.folio}</div>
                                         <div className="text-xs text-base-content/50">{movement.batch_code}</div>
                                     </td>
                                     <td>{formatDate(movement.movement_date)}</td>
@@ -138,82 +138,82 @@ export function MovementsPage() {
             </SectionCard>
 
             <dialog className={`modal ${open ? 'modal-open' : ''}`}>
-                <div className="modal-box max-w-3xl rounded-[28px] p-0">
+                <div className="modal-box max-w-3xl rounded-2xl p-0">
                     <form onSubmit={handleSubmit} className="space-y-6 p-6">
                         <div className="flex items-start justify-between gap-4">
                             <div>
                                 <h3 className="text-2xl font-black">Registrar movimiento</h3>
                                 <p className="mt-2 text-sm text-base-content/60">Captura el movimiento con datos de socio, lote, volumen y trazabilidad de bodega.</p>
                             </div>
-                            <button type="button" className="btn btn-ghost btn-circle" onClick={() => setOpen(false)}>
-                                ✕
+                            <button type="button" className="btn btn-ghost btn-circle" onClick={() => setOpen(false)} aria-label="Cerrar">
+                                <X size={18} />
                             </button>
                         </div>
 
                         <div className="grid gap-4 md:grid-cols-2">
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Folio</span>
-                                <input className="input input-bordered rounded-2xl" value={form.folio} onChange={(event) => setForm((current) => ({ ...current, folio: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.folio} onChange={(event) => setForm((current) => ({ ...current, folio: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Tipo</span>
-                                <select className="select select-bordered rounded-2xl" value={form.movement_type} onChange={(event) => setForm((current) => ({ ...current, movement_type: event.target.value as MovementPayload['movement_type'] }))}>
+                                <select className="select select-bordered rounded-xl" value={form.movement_type} onChange={(event) => setForm((current) => ({ ...current, movement_type: event.target.value as MovementPayload['movement_type'] }))}>
                                     <option value="entrada">Entrada</option>
                                     <option value="salida">Salida</option>
                                 </select>
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Proveedor / destino</span>
-                                <input className="input input-bordered rounded-2xl" value={form.partner} onChange={(event) => setForm((current) => ({ ...current, partner: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.partner} onChange={(event) => setForm((current) => ({ ...current, partner: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Fecha</span>
-                                <input type="date" className="input input-bordered rounded-2xl" value={form.movement_date} onChange={(event) => setForm((current) => ({ ...current, movement_date: event.target.value }))} required />
+                                <input type="date" className="input input-bordered rounded-xl" value={form.movement_date} onChange={(event) => setForm((current) => ({ ...current, movement_date: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Cantidad</span>
-                                <input type="number" className="input input-bordered rounded-2xl" value={form.quantity} onChange={(event) => setForm((current) => ({ ...current, quantity: Number(event.target.value) }))} required />
+                                <input type="number" className="input input-bordered rounded-xl" value={form.quantity} onChange={(event) => setForm((current) => ({ ...current, quantity: Number(event.target.value) }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Volumen m³</span>
-                                <input type="number" step="0.1" className="input input-bordered rounded-2xl" value={form.volume_m3} onChange={(event) => setForm((current) => ({ ...current, volume_m3: Number(event.target.value) }))} required />
+                                <input type="number" step="0.1" className="input input-bordered rounded-xl" value={form.volume_m3} onChange={(event) => setForm((current) => ({ ...current, volume_m3: Number(event.target.value) }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Estado operativo</span>
-                                <input className="input input-bordered rounded-2xl" value={form.state} onChange={(event) => setForm((current) => ({ ...current, state: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.state} onChange={(event) => setForm((current) => ({ ...current, state: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Responsable</span>
-                                <input className="input input-bordered rounded-2xl" value={form.responsible} onChange={(event) => setForm((current) => ({ ...current, responsible: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.responsible} onChange={(event) => setForm((current) => ({ ...current, responsible: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Origen</span>
-                                <input className="input input-bordered rounded-2xl" value={form.origin} onChange={(event) => setForm((current) => ({ ...current, origin: event.target.value }))} />
+                                <input className="input input-bordered rounded-xl" value={form.origin} onChange={(event) => setForm((current) => ({ ...current, origin: event.target.value }))} />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Bodega</span>
-                                <input className="input input-bordered rounded-2xl" value={form.warehouse_location} onChange={(event) => setForm((current) => ({ ...current, warehouse_location: event.target.value }))} />
+                                <input className="input input-bordered rounded-xl" value={form.warehouse_location} onChange={(event) => setForm((current) => ({ ...current, warehouse_location: event.target.value }))} />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Lote</span>
-                                <input className="input input-bordered rounded-2xl" value={form.batch_code} onChange={(event) => setForm((current) => ({ ...current, batch_code: event.target.value }))} required />
+                                <input className="input input-bordered rounded-xl" value={form.batch_code} onChange={(event) => setForm((current) => ({ ...current, batch_code: event.target.value }))} required />
                             </label>
                             <label className="form-control gap-2">
                                 <span className="label-text font-semibold">Tiempo traslado (h)</span>
-                                <input type="number" step="0.1" className="input input-bordered rounded-2xl" value={form.travel_time_hours} onChange={(event) => setForm((current) => ({ ...current, travel_time_hours: Number(event.target.value) }))} />
+                                <input type="number" step="0.1" className="input input-bordered rounded-xl" value={form.travel_time_hours} onChange={(event) => setForm((current) => ({ ...current, travel_time_hours: Number(event.target.value) }))} />
                             </label>
                         </div>
 
                         <label className="form-control gap-2">
                             <span className="label-text font-semibold">Notas</span>
-                            <textarea className="textarea textarea-bordered min-h-28 rounded-2xl" value={form.notes} onChange={(event) => setForm((current) => ({ ...current, notes: event.target.value }))} />
+                            <textarea className="textarea textarea-bordered min-h-28 rounded-xl" value={form.notes} onChange={(event) => setForm((current) => ({ ...current, notes: event.target.value }))} />
                         </label>
 
                         <div className="flex justify-end gap-3">
-                            <button type="button" className="btn btn-ghost rounded-2xl" onClick={() => setOpen(false)}>
+                            <button type="button" className="btn btn-ghost rounded-xl" onClick={() => setOpen(false)}>
                                 Cancelar
                             </button>
-                            <button type="submit" className={`btn btn-primary rounded-2xl ${submitting ? 'btn-disabled' : ''}`}>
+                            <button type="submit" className={`btn btn-primary rounded-xl ${submitting ? 'btn-disabled' : ''}`}>
                                 {submitting ? 'Guardando...' : 'Guardar movimiento'}
                             </button>
                         </div>

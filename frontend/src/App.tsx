@@ -9,6 +9,7 @@ const InventoryPage = lazy(() => import('./pages/InventoryPage').then((module) =
 const DistributionPage = lazy(() => import('./pages/DistributionPage').then((module) => ({ default: module.DistributionPage })));
 const TemplatePage = lazy(() => import('./pages/TemplatePage').then((module) => ({ default: module.TemplatePage })));
 const TrackingPage = lazy(() => import('./pages/TrackingPage').then((module) => ({ default: module.TrackingPage })));
+const PresentationPage = lazy(() => import('./pages/PresentationPage').then((module) => ({ default: module.PresentationPage })));
 
 export default function App() {
   return (
@@ -16,14 +17,15 @@ export default function App() {
       <LogisticsProvider>
         <Routes>
           <Route element={<AppShell />}>
+            <Route path="/presentation" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><PresentationPage /></Suspense>} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><DashboardPage /></Suspense>} />
-            <Route path="/movements" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><MovementsPage /></Suspense>} />
-            <Route path="/inventory" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><InventoryPage /></Suspense>} />
-            <Route path="/distribution" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><DistributionPage /></Suspense>} />
-            <Route path="/template" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><TemplatePage /></Suspense>} />
-            <Route path="/tracking" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><TrackingPage /></Suspense>} />
-            <Route path="/tracking/:movementId" element={<Suspense fallback={<div className="skeleton h-72 rounded-[28px]" />}><TrackingPage /></Suspense>} />
+            <Route path="/dashboard" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><DashboardPage /></Suspense>} />
+            <Route path="/movements" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><MovementsPage /></Suspense>} />
+            <Route path="/inventory" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><InventoryPage /></Suspense>} />
+            <Route path="/distribution" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><DistributionPage /></Suspense>} />
+            <Route path="/template" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><TemplatePage /></Suspense>} />
+            <Route path="/tracking" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><TrackingPage /></Suspense>} />
+            <Route path="/tracking/:movementId" element={<Suspense fallback={<div className="skeleton h-72 rounded-2xl" />}><TrackingPage /></Suspense>} />
           </Route>
         </Routes>
       </LogisticsProvider>

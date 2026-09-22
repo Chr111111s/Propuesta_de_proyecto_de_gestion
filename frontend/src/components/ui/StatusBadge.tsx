@@ -10,5 +10,5 @@ const toneByStatus = {
 export function StatusBadge({ value }: { value: string }) {
     const tone = getStatusTone(value);
 
-    return <span className={`badge badge-sm md:badge-md font-semibold ${toneByStatus[tone]}`}>{value}</span>;
+    return <span className={`badge badge-sm md:badge-md font-semibold rounded-full ${toneByStatus[tone]}`}>{value}</span>;
 }

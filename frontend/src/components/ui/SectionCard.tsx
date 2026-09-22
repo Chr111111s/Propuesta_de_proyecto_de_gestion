@@ -14,7 +14,7 @@ export function SectionCard({
     className?: string;
 }) {
     return (
-        <section className={`card border border-base-200 bg-base-100 shadow-sm ${className}`.trim()}>
+        <section className={`card border border-base-200 bg-base-100 shadow-sm rounded-2xl ${className}`.trim()}>
             <div className="card-body gap-5 p-6">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                     <div className="space-y-1">

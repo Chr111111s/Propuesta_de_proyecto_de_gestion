@@ -36,8 +36,11 @@ export function DashboardPage() {
     return (
         <div className="space-y-6">
             <section className="grid gap-4 xl:grid-cols-[minmax(0,1.8fr)_380px]">
-                <div className="rounded-[32px] border border-base-200 bg-base-100 p-6 shadow-sm lg:p-7">
-                    <p className="text-xs font-semibold text-base-content/45">Dashboard principal</p>
+                <div className="rounded-2xl border border-base-200 bg-base-100 p-6 shadow-sm lg:p-7">
+                    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-secondary">
+                        <span className="inline-block h-1.5 w-1.5 rotate-45 bg-secondary/80" aria-hidden="true" />
+                        Dashboard principal
+                    </p>
                     <h1 className="mt-3 max-w-3xl text-3xl font-black tracking-tight lg:text-5xl">
                         Operación integral de inventario y distribución de piñas
                     </h1>
@@ -52,18 +55,18 @@ export function DashboardPage() {
                     </div>
                 </div>
 
-                <div className="rounded-[32px] bg-primary p-6 text-primary-content shadow-sm lg:p-7">
+                <div className="scale-field rounded-2xl bg-neutral p-6 text-primary-content shadow-lg shadow-neutral/15 lg:p-7">
                     <p className="text-xs font-semibold text-primary-content/75">Eficiencia operativa</p>
                     <div className="mt-4 flex items-end justify-between gap-4">
                         <div>
-                            <p className="text-5xl font-black">{metrics?.estimated_waste_reduction_pct ?? 0}%</p>
+                            <p className="display-num text-5xl font-black">{metrics?.estimated_waste_reduction_pct ?? 0}%</p>
                             <p className="mt-2 max-w-xs text-sm text-primary-content/80">
                                 Reducción estimada de merma frente a retrasos y sobreinventario del periodo.
                             </p>
                         </div>
-                        <TrendingUp size={44} />
+                        <TrendingUp size={44} className="text-primary-content/60" />
                     </div>
-                    <progress className="progress progress-warning mt-6 h-3 w-full" value={metrics?.estimated_waste_reduction_pct ?? 0} max={100} />
+                    <progress className="progress progress-accent mt-6 h-3 w-full" value={metrics?.estimated_waste_reduction_pct ?? 0} max={100} />
                 </div>
             </section>
 
@@ -119,23 +122,32 @@ export function DashboardPage() {
                             <AreaChart data={weeklyMovements} margin={{ top: 10, right: 12, left: -20, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="entradasFill" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#1F7A4F" stopOpacity={0.35} />
-                                        <stop offset="100%" stopColor="#1F7A4F" stopOpacity={0.03} />
+                                        <stop offset="0%" stopColor="var(--color-primary)" stopOpacity={0.32} />
+                                        <stop offset="100%" stopColor="var(--color-primary)" stopOpacity={0.03} />
                                     </linearGradient>
                                     <linearGradient id="salidasFill" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#D18B13" stopOpacity={0.28} />
-                                        <stop offset="100%" stopColor="#D18B13" stopOpacity={0.03} />
+                                        <stop offset="0%" stopColor="var(--color-secondary)" stopOpacity={0.26} />
+                                        <stop offset="100%" stopColor="var(--color-secondary)" stopOpacity={0.03} />
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid stroke="#E5E7EB" strokeDasharray="3 3" vertical={false} />
-                                <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fill: '#6B7280', fontSize: 12 }} axisLine={false} tickLine={false} />
-                                <YAxis tick={{ fill: '#6B7280', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                <CartesianGrid stroke="var(--color-base-300)" strokeDasharray="3 3" vertical={false} />
+                                <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fill: 'var(--color-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+                                <YAxis tick={{ fill: 'var(--color-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
                                 <Tooltip
                                     formatter={(value, name) => [formatNumber(Number(value ?? 0)), name === 'entradas' ? 'Entradas' : 'Salidas']}
                                     labelFormatter={(label) => formatDate(String(label))}
+                                    contentStyle={{
+                                        borderRadius: 12,
+                                        border: '1px solid var(--color-base-300)',
+                                        background: 'var(--color-base-100)',
+                                        boxShadow: '0 12px 28px rgba(30,48,72,0.12)',
+                                        fontSize: 13,
+                                        fontFamily: 'Barlow, ui-sans-serif, sans-serif',
+                                    }}
+                                    cursor={{ stroke: 'var(--color-secondary)', strokeDasharray: '3 3' }}
                                 />
-                                <Area type="monotone" dataKey="entradas" stroke="#1F7A4F" strokeWidth={3} fill="url(#entradasFill)" />
-                                <Area type="monotone" dataKey="salidas" stroke="#D18B13" strokeWidth={3} fill="url(#salidasFill)" />
+                                <Area type="monotone" dataKey="entradas" stroke="var(--color-primary)" strokeWidth={3} fill="url(#entradasFill)" />
+                                <Area type="monotone" dataKey="salidas" stroke="var(--color-secondary)" strokeWidth={3} fill="url(#salidasFill)" />
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
@@ -144,14 +156,14 @@ export function DashboardPage() {
                 <SectionCard title="Bajo stock" description="Productos que requieren revisión de reabasto o redistribución interna.">
                     <div className="space-y-3">
                         {criticalInventory.map((item) => (
-                            <div key={item.id} className="rounded-2xl border border-base-200 bg-base-200/30 p-4">
-                                <div className="flex items-start justify-between gap-4">
-                                    <div>
-                                        <p className="font-bold">{item.batch_code}</p>
-                                        <p className="text-sm text-base-content/60">{item.warehouse_location} · {item.origin}</p>
-                                    </div>
-                                    <StatusBadge value={item.status} />
-                                </div>
+<div key={item.id} className="rounded-xl border border-base-200 bg-base-200/30 p-4">
+                                        <div className="flex items-start justify-between gap-4">
+                                            <div>
+                                                <p className="folio-mono font-bold">{item.batch_code}</p>
+                                                <p className="text-sm text-base-content/60">{item.warehouse_location} · {item.origin}</p>
+                                            </div>
+                                            <StatusBadge value={item.status} />
+                                        </div>
                                 <div className="mt-3 flex items-center justify-between text-sm text-base-content/60">
                                     <span>{formatNumber(item.quantity)} unidades</span>
                                     <span>{formatVolume(item.volume_m3)}</span>
@@ -207,7 +219,7 @@ export function DashboardPage() {
                             <tbody>
                                 {movements.slice(0, 6).map((movement) => (
                                     <tr key={movement.id}>
-                                        <td className="font-semibold">{movement.folio}</td>
+                                        <td className="folio-mono font-semibold">{movement.folio}</td>
                                         <td>{formatDate(movement.movement_date)}</td>
                                         <td>{movement.partner}</td>
                                         <td>{formatNumber(movement.quantity)}</td>
@@ -221,19 +233,19 @@ export function DashboardPage() {
             </section>
 
             <section className="grid gap-4 xl:grid-cols-3">
-                <div className="rounded-[28px] border border-base-200 bg-base-100 p-5 shadow-sm">
-                    <p className="text-sm font-semibold text-base-content/55">Cobertura estatal</p>
-                    <p className="mt-3 text-4xl font-black">{coveredStates}</p>
+                <div className="rounded-2xl border border-base-200 bg-base-100 p-5 shadow-sm">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-base-content/55">Cobertura estatal</p>
+                    <p className="display-num mt-3 text-4xl font-black">{coveredStates}</p>
                     <p className="mt-2 text-sm text-base-content/60">Regiones con entregas, recolección o tránsito actualmente controlado.</p>
                 </div>
-                <div className="rounded-[28px] border border-base-200 bg-base-100 p-5 shadow-sm">
-                    <p className="text-sm font-semibold text-base-content/55">Capacidad total</p>
-                    <p className="mt-3 text-4xl font-black">{formatNumber(routeSummary.totalCapacity)}</p>
+                <div className="rounded-2xl border border-base-200 bg-base-100 p-5 shadow-sm">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-base-content/55">Capacidad total</p>
+                    <p className="display-num mt-3 text-4xl font-black">{formatNumber(routeSummary.totalCapacity)}</p>
                     <p className="mt-2 text-sm text-base-content/60">Unidades disponibles para redistribución estatal.</p>
                 </div>
-                <div className="rounded-[28px] border border-base-200 bg-base-100 p-5 shadow-sm">
-                    <p className="text-sm font-semibold text-base-content/55">Merma evitada</p>
-                    <p className="mt-3 text-4xl font-black">{formatPercent(metrics?.estimated_waste_reduction_pct ?? 0)}</p>
+                <div className="rounded-2xl border border-base-200 bg-base-100 p-5 shadow-sm">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-base-content/55">Merma evitada</p>
+                    <p className="display-num mt-3 text-4xl font-black">{formatPercent(metrics?.estimated_waste_reduction_pct ?? 0)}</p>
                     <p className="mt-2 text-sm text-base-content/60">Indicador de eficiencia frente a sobreinventario y demoras.</p>
                 </div>
             </section>
